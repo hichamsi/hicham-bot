@@ -1,1 +1,1 @@
-worker: node discordbott
+worker: node forzabot
