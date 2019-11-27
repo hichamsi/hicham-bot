@@ -1,0 +1,219 @@
+const Discord = require ('discord.js');
+
+const bot = new Discord.Client();
+
+const ytdl = require("ytdl-core");
+
+const PREFIX = '>';
+
+var Servers = {};
+
+bot.on('ready', () =>{
+    console.log('Forza bot is online!');
+        bot.user.setActivity("Forza Server, Hosting 24h/7d", {type: "WATCHING"}).catch(console.error);
+})
+bot.on('message', message=>{
+            if (message.content === 'Mohamed CH')
+                message.reply('Best friend can you get in your live <3', {files: ['https://upload.wikimedia.org/wikipedia/commons/c/c8/Love_Heart_symbol.svg']})
+        if (message.content === 'team forza logo') {
+                message.reply('Team forza logo', {files: ['https://cdn.discordapp.com/attachments/585935616919863328/647854293235531786/Forza.jpg']})
+        }
+        if (message.content === 'koala') {
+                message.reply('This is a koala!', {files: ['https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Koala_climbing_tree.jpg/480px-Koala_climbing_tree.jpg']});
+            }
+        if (!message.guild) return;
+        if (message.content.startsWith('>ban')) {
+          const user = message.mentions.users.first();
+          if (user) {
+            const member = message.guild.member(user);
+            if (member) {
+              member.ban({
+                reason: 'They were bad!',
+              }).then(() => {
+                message.reply(`Successfully banned ${user.tag}`);
+              }).catch(err => {
+                message.reply('I was unable to ban the member');
+                console.error(err);
+              });
+            } else {
+              message.reply('That user isn\'t in this guild!');
+            }
+          } else {
+            message.reply('You didn\'t mention the user to ban!');
+          }
+        }
+        if (message.content.startsWith('>kick')) {
+          const user = message.mentions.users.first();
+          if (user) {
+            const member = message.guild.member(user);
+            if (member) {
+              member.kick('Optional reason that will display in the audit logs').then(() => {
+                message.reply(`Successfully kicked ${user.tag}`);
+              }).catch(err => {
+                message.reply('I was unable to kick the member');
+                console.error(err);
+              });
+            } else {
+              message.reply('That user isn\'t in this guild!');
+            }
+          } else {
+            message.reply('You didn\'t mention the user to kick!');
+          }
+        }
+        if (message.content === 'what is my avatar') {
+          message.reply(message.author.avatarURL);      
+        }
+        var thing = message.content.toLowerCase();
+        if(thing.startsWith('hello') || thing.startsWith('hi') || thing.startsWith('hey')) {
+            var messages = ["hello", "hey there!", "hi!!!!", "i love you <3", "forza says hi!"];
+            message.reply(messages[Math.floor(Math.random() * messages.length)]);
+        }
+        if(thing.startsWith('how are you') || thing.startsWith('how r u')) {
+            var messages = ["Im fine And you", "malgri m9wda 3aychin ghaya"];
+            message.reply(messages[Math.floor(Math.random() * messages.length)]);
+        }
+        else if (message.content === `${PREFIX}server`) {
+                message.channel.send(`Server name: ${message.guild.name}\nTotal members: ${message.guild.memberCount}`);
+        }
+        else if (message.content === `${PREFIX}user-info`) {
+                message.channel.send(`Your username: ${message.author.username}\nYour ID: ${message.author.id}`);
+        }
+let args = message.content.substring(PREFIX.length).split(" ");
+
+     switch(args[0]){
+             case 'react':
+                     message.channel.send('this is going to react to your message!').then(message.react('😂'));
+                     break;
+             case 'play':
+
+        function play (connection, message){
+             var Server = Servers[message.guild.id];
+
+             Server.dispatcher = connection.playStream(ytdl(Server.queue[0], {filter: "audioonly"}));
+
+             Server.queue.shift();
+
+             Server.dispatcher.on("end", function(){
+                   if(Server.queue[0]){
+                        play(connection, message);   
+                }else{ 
+                     connection.disconnect();
+                }
+             });
+
+             }
+
+if(!args[1]){
+        message.channel.send("you need to provide a link!");
+        return;
+
+}
+
+if(!message.member.voiceChannel){
+message.channel.send("you must be in a channel to play the bot!");
+return;
+
+}
+
+if(!Servers[message.guild.id]) Servers[message.guild.id] = {
+        queue: []
+}
+var Server = Servers[message.guild.id];
+
+Server.queue.push(args[1]);
+
+if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection){
+     play(connection, message);
+})
+break;
+
+
+case 'skip':
+        var Server = Servers[message.guild.id];
+        if(Server.dispatcher) Server.dispatcher.end();
+        message.channel.send("Skipping the song!")
+             break;
+case 'stop':
+                var Server = Servers[message.guild.id];
+                if(message.guild.voiceConnection){
+                for(var i = Server.queue.length -1; i >=0; i--){
+                        Server.queue.splice(i, 1);
+                }
+
+                     Server.dispatcher.end();
+                     message.channel.send("Ending the queue leaving the voice channel!")
+                     console.log('stopped the queue')
+                }
+                if(message.guild.connection) message.guild.voiceConnection.disconnect();
+             break;
+case 'help':
+        message.channel.sendMessage('you can use commands like:')
+        message.channel.sendMessage('! icanusebot?')
+        message.channel.sendMessage('! needowner')
+        message.channel.sendMessage('! react')
+        message.channel.sendMessage('! kick')
+        message.channel.sendMessage('! embed')
+        message.channel.sendMessage('! info version')
+        message.channel.sendMessage('! versionpatch')
+        message.channel.sendMessage('! play (you need to provide a link!)')
+        message.channel.sendMessage('or use the args: >')
+                break;
+        case '3abass':
+                message.channel.sendMessage('nass mla7 w mn sba')
+                break;
+        case 'swida9':
+        message.channel.sendMessage('wld familya les hommes <3')
+        break;
+case 'bot owner':
+        message.channel.sendMessage('Bot Made and owned by: Hicham#3335')
+        break;        
+case 'icanusebot?':
+        message.channel.sendMessage('sure! you can')
+        break;     
+case 'needowner':
+        message.channel.sendMessage('Plz Contact: https://facebook.com/hicham.SidiIkhlef ')
+        break;
+case 'websiteYoutube':
+        message.channel.sendMessage('https://www.youtube.com/channel/UCJXa7YMoJSUSv144ZtYWy2g?view_as=subscriber')
+        break;
+case 'youarethebestbot':
+        message.channel.sendMessage('thank you!')
+        break;
+case 'blogforza':
+        message.channel.sendMessage('https://clanforza.blogspot.com/2019/11/team-forza.html')     
+        break;   
+case 'versionpatch':
+        message.channel.sendMessage('adding new commands! fixing bugs')
+        break;
+case 'tiktok':
+        message.channel.sendMessage('Why are you gay?')
+        break;
+case 'websiteFacebook':
+        message.channel.sendMessage('https://facebook.com/hicham.SidiIkhlef')
+                break;
+case 'info':
+        if(args[1] === 'version'){
+message.channel.sendMessage('2.2.0');
+        }else{
+message.channel.sendMessage('Invalid Args')
+        }
+    break;
+case 'clear':
+    if(!args[1]) return message.reply ('Error please define second arg')
+    message.channel.bulkDelete(args[1]);
+    break;
+case 'embed':
+        const embed = new Discord.RichEmbed()
+        .setTitle("Forza Members")
+        .addField("Forza Founders", "SP33D - Wassim")
+        .addField("Forza Directors", "Hicham")
+        .addField("Forza Leaders", "3abass - Salint")
+        .addField("Forza Capitans", "Swida9 - Islam")
+        .setColor([199, 21, 133])
+        .setThumbnail("https://cdn.discordapp.com/attachments/585935616919863328/647854293235531786/Forza.jpg")
+        message.channel.sendEmbed(embed);
+        break;        
+}
+}
+);
+bot.login(process.env.BOT_TOKEN);
