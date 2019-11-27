@@ -1,8 +1,8 @@
 {
-  "name": "discordbott",
+  "name": "forzabot",
   "version": "1.0.0",
   "description": "none",
-  "main": "discordbott",
+  "main": "forzabot",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
